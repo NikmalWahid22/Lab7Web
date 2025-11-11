@@ -173,8 +173,7 @@ For digunakan untuk mengulang eksekusi kode beberapa kali dengan jumlah perulang
 
 # Perulangan While dan Do While 
 ## Perulangan While 
-Digunakan untuk mengulang kode selama kondisi bernilai benar (true).
-Kalau kondisi salah di awal, perulangan tidak akan dijalankan sama sekali
+Digunakan untuk mengulang kode selama kondisi bernilai benar (true). Kalau kondisi salah di awal, perulangan tidak akan dijalankan sama sekali
 ```
 <?php
     echo "Perulangan 1 sampai 10 <br />"; 
@@ -204,13 +203,84 @@ Jadi, minimal satu kali perulangan pasti dijalankan.
 ![Gambar 10](ss8.png)
 
 # Pertanyaan dan Tugas
-Buatlah program PHP sederhana dengan menggunakan form input yang menampilkan
-nama, tanggal lahir dan pekerjaan. Kemudian tampilkan outputnya dengan menghitung
-umur berdasarkan inputan tanggal lahir. Dan pilihan pekerjaan dengan gaji yang
-berbeda-beda sesuai pilihan pekerjaan. 
+Buatlah program PHP sederhana dengan menggunakan form input yang menampilkan nama, tanggal lahir dan pekerjaan. Kemudian tampilkan outputnya dengan menghitungumur berdasarkan inputan tanggal lahir. Dan pilihan pekerjaan dengan gaji yang berbeda-beda sesuai pilihan pekerjaan. 
+Penjelasan Singkat: Setelah data dikirim melalui form, program akan memproses input yang diterima. Pertama, program menghitung umur pengguna berdasarkan tanggal lahir yang dimasukkan dengan menggunakan fungsi DateTime untuk mendapatkan selisih antara tanggal lahir dan tanggal saat ini. Selanjutnya, program menentukan besarnya gaji sesuai dengan pilihan pekerjaan yang dipilih oleh pengguna menggunakan struktur switch. Terakhir, hasil dari proses tersebut—berupa nama, umur, pekerjaan, dan gaji—akan ditampilkan secara langsung di bawah form pada halaman yang sama.
 
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+    <h2>Form Input</h2>
+    <form method="post">
+        <label>Nama:</label><br>
+        <input type="text" name="nama" required><br><br>
 
+        <label>Tanggal Lahir:</label><br>
+        <input type="date" name="tgl_lahir" required><br><br>
 
+        <label>Pekerjaan:</label><br>
+        <select name="pekerjaan" required>
+            <option value="">-- Pilih Pekerjaan --</option>
+            <option value="Programmer">Programmer</option>
+            <option value="Guru">Guru</option>
+            <option value="Dokter">Dokter</option>
+            <option value="Desainer">Desainer</option>
+            <option value="Mahasiswa">Mahasiswa</option>
+        </select><br><br>
+
+        <input type="submit" value="Kirim">
+    </form>
+
+    <hr>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama = $_POST['nama'];
+        $tgl_lahir = $_POST['tgl_lahir'];
+        $pekerjaan = $_POST['pekerjaan'];
+
+        $tgl_lahir_obj = new DateTime($tgl_lahir);
+        $sekarang = new DateTime();
+        $umur = $sekarang->diff($tgl_lahir_obj)->y;
+
+        switch ($pekerjaan) {
+            case "Programmer":
+                $gaji = 8000000;
+                break;
+            case "Guru":
+                $gaji = 5000000;
+                break;
+            case "Dokter":
+                $gaji = 10000000;
+                break;
+            case "Desainer":
+                $gaji = 6000000;
+                break;
+            case "Mahasiswa":
+                $gaji = 0;
+                break;
+            default:
+                $gaji = 0;
+                break;
+        }
+
+        echo "<h3>Hasil Data</h3>";
+        echo "Nama: <strong>$nama</strong><br>";
+        echo "Tanggal Lahir: <strong>$tgl_lahir</strong><br>";
+        echo "Umur: <strong>$umur tahun</strong><br>";
+        echo "Pekerjaan: <strong>$pekerjaan</strong><br>";
+        echo "Gaji: <strong>Rp " . number_format($gaji, 0, ',', '.') . "</strong>";
+    }
+    ?>
+</body>
+</html>
+```
+
+![Gambar 11](tugas.png)
 
 
 
